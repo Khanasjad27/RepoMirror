@@ -42,9 +42,21 @@ async function fetchGitHubData(owner: string, repo: string): Promise<RepoData> {
   };
 
   // Fetch repo info
+  console.log(`Fetching GitHub repo: https://api.github.com/repos/${owner}/${repo}`);
   const repoRes = await fetch(`https://api.github.com/repos/${owner}/${repo}`, { headers });
+  
   if (!repoRes.ok) {
-    throw new Error(`Repository not found: ${owner}/${repo}`);
+    const status = repoRes.status;
+    const rateLimitRemaining = repoRes.headers.get('X-RateLimit-Remaining');
+    console.error(`GitHub API error: status=${status}, rateLimit=${rateLimitRemaining}`);
+    
+    if (status === 404) {
+      throw new Error(`Repository not found. Please check that "${owner}/${repo}" exists and is public.`);
+    } else if (status === 403) {
+      throw new Error('GitHub API rate limit exceeded. Please try again in a few minutes.');
+    } else {
+      throw new Error(`GitHub API error (status ${status}). Please try again.`);
+    }
   }
   const repoInfo = await repoRes.json();
 
