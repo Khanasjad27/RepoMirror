@@ -52,5 +52,4 @@ RepoMirror is deployed on **Vercel** with environment variables securely managed
 
 ## 👤 Author
 **Asjad Khan**  
-2nd Year Engineering Student  
 GitHub: https://github.com/Khanasjad27
