@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { Header } from "@/components/Header";
 import { HeroSection } from "@/components/HeroSection";
+import { LandingSections } from "@/components/LandingSections";
 import { AnalysisResults } from "@/components/AnalysisResults";
 import { Button } from "@/components/ui/button";
 import { ArrowLeft } from "lucide-react";
@@ -56,6 +57,9 @@ const Index = () => {
         roadmap: data.roadmap,
         metrics: data.metrics,
       });
+
+      // Scroll to top to see results
+      window.scrollTo({ top: 0, behavior: 'smooth' });
     } catch (err) {
       console.error('Unexpected error:', err);
       toast.error('An unexpected error occurred');
@@ -67,6 +71,7 @@ const Index = () => {
   const handleReset = () => {
     setResult(null);
     setAnalyzedUrl("");
+    window.scrollTo({ top: 0, behavior: 'smooth' });
   };
 
   return (
@@ -75,7 +80,10 @@ const Index = () => {
       
       <div className="pt-16">
         {!result ? (
-          <HeroSection onAnalyze={handleAnalyze} isLoading={isLoading} />
+          <>
+            <HeroSection onAnalyze={handleAnalyze} isLoading={isLoading} />
+            <LandingSections />
+          </>
         ) : (
           <section className="container mx-auto px-4 py-12">
             <Button 
@@ -87,7 +95,7 @@ const Index = () => {
               Analyze another repository
             </Button>
             
-            <AnalysisResults result={result} repoUrl={analyzedUrl} />
+            <AnalysisResults result={result} repoUrl={analyzedUrl} onReset={handleReset} />
           </section>
         )}
       </div>
@@ -96,6 +104,7 @@ const Index = () => {
       <footer className="border-t border-border/50 py-8 mt-20">
         <div className="container mx-auto px-4 text-center text-sm text-muted-foreground">
           <p>Built for students, by engineers who care about code quality.</p>
+          <p className="mt-2 text-xs">© {new Date().getFullYear()} RepoMirror. All rights reserved.</p>
         </div>
       </footer>
     </main>

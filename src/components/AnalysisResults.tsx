@@ -1,6 +1,7 @@
 import { ScoreCircle } from "./ScoreCircle";
 import { RoadmapItem } from "./RoadmapItem";
-import { FileCode2, GitBranch, BookOpen, TestTube, Clock, Layers, GitCommit, Rocket } from "lucide-react";
+import { ThankYouSection } from "./ThankYouSection";
+import { FileCode2, GitBranch, BookOpen, TestTube, Layers, GitCommit, Rocket } from "lucide-react";
 
 interface AnalysisResult {
   score: number;
@@ -21,9 +22,10 @@ interface AnalysisResult {
 interface AnalysisResultsProps {
   result: AnalysisResult;
   repoUrl: string;
+  onReset: () => void;
 }
 
-export function AnalysisResults({ result, repoUrl }: AnalysisResultsProps) {
+export function AnalysisResults({ result, repoUrl, onReset }: AnalysisResultsProps) {
   const repoName = repoUrl.split("/").slice(-2).join("/");
 
   const metrics = [
@@ -96,6 +98,9 @@ export function AnalysisResults({ result, repoUrl }: AnalysisResultsProps) {
           ))}
         </div>
       </div>
+
+      {/* Thank You & Tips */}
+      <ThankYouSection onAnalyzeAnother={onReset} repoName={repoName} />
     </div>
   );
 }
