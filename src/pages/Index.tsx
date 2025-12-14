@@ -4,65 +4,64 @@ import { HeroSection } from "@/components/HeroSection";
 import { AnalysisResults } from "@/components/AnalysisResults";
 import { Button } from "@/components/ui/button";
 import { ArrowLeft } from "lucide-react";
+import { supabase } from "@/integrations/supabase/client";
+import { toast } from "sonner";
 
-// Mock analysis result for demo
-const mockResult = {
-  score: 72,
-  summary: "This repository demonstrates solid fundamentals with good code organization and consistent commit history. The documentation could be improved with more detailed setup instructions and API references. Test coverage is below industry standards at roughly 35%, which presents maintainability risks. The technology stack is modern and appropriate for the project scope.",
-  roadmap: [
-    {
-      title: "Add Comprehensive Testing",
-      description: "Implement unit tests for core utilities and integration tests for main features. Aim for at least 70% code coverage to ensure maintainability.",
-      priority: "high" as const,
-    },
-    {
-      title: "Enhance README Documentation",
-      description: "Add detailed setup instructions, API documentation, and contribution guidelines. Include screenshots or GIFs demonstrating key features.",
-      priority: "high" as const,
-    },
-    {
-      title: "Implement Consistent Error Handling",
-      description: "Create a centralized error handling pattern across the codebase. Add proper try-catch blocks and user-friendly error messages.",
-      priority: "medium" as const,
-    },
-    {
-      title: "Add TypeScript Strict Mode",
-      description: "Enable strict TypeScript configuration to catch potential runtime errors at compile time. Fix any resulting type errors.",
-      priority: "medium" as const,
-    },
-    {
-      title: "Set Up CI/CD Pipeline",
-      description: "Configure GitHub Actions for automated testing, linting, and deployment. This ensures code quality on every pull request.",
-      priority: "medium" as const,
-    },
-    {
-      title: "Refactor Large Components",
-      description: "Break down components exceeding 200 lines into smaller, reusable pieces. This improves readability and testability.",
-      priority: "low" as const,
-    },
-  ],
+interface AnalysisResult {
+  score: number;
+  summary: string;
+  roadmap: Array<{
+    title: string;
+    description: string;
+    priority: "high" | "medium" | "low";
+  }>;
   metrics: {
-    codeQuality: 75,
-    documentation: 58,
-    testing: 35,
-    structure: 82,
-  },
-};
+    codeQuality: number;
+    documentation: number;
+    testing: number;
+    structure: number;
+  };
+}
 
 const Index = () => {
   const [isLoading, setIsLoading] = useState(false);
-  const [result, setResult] = useState<typeof mockResult | null>(null);
+  const [result, setResult] = useState<AnalysisResult | null>(null);
   const [analyzedUrl, setAnalyzedUrl] = useState("");
 
   const handleAnalyze = async (url: string) => {
     setIsLoading(true);
     setAnalyzedUrl(url);
     
-    // Simulate API call
-    await new Promise(resolve => setTimeout(resolve, 2500));
-    
-    setResult(mockResult);
-    setIsLoading(false);
+    try {
+      const { data, error } = await supabase.functions.invoke('analyze-repo', {
+        body: { repoUrl: url },
+      });
+
+      if (error) {
+        console.error('Analysis error:', error);
+        toast.error(error.message || 'Failed to analyze repository');
+        setIsLoading(false);
+        return;
+      }
+
+      if (data?.error) {
+        toast.error(data.error);
+        setIsLoading(false);
+        return;
+      }
+
+      setResult({
+        score: data.score,
+        summary: data.summary,
+        roadmap: data.roadmap,
+        metrics: data.metrics,
+      });
+    } catch (err) {
+      console.error('Unexpected error:', err);
+      toast.error('An unexpected error occurred');
+    } finally {
+      setIsLoading(false);
+    }
   };
 
   const handleReset = () => {
