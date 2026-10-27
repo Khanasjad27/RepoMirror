@@ -1,55 +1,82 @@
-# RepoMirror 🔍  
-Industry-Style GitHub Repository Evaluator
+# RepoMirror 🔍
+### Senior Staff Code Review & Repository Intelligence
 
-RepoMirror is a web-based platform that evaluates GitHub repositories using senior software engineer and recruiter-level review logic. It acts as a **Repository Mirror**, reflecting the real strengths, weaknesses, and improvement areas of a project exactly as an industry hiring engineer would.
+RepoMirror is a modern developer tool that evaluates GitHub repositories against senior software engineer and recruiter-level hiring standards. It acts as a **Repository Mirror**, providing candid technical evaluations, architectural audits, and actionable roadmaps to elevate projects into production-ready repositories.
+
+---
 
 ## 🔗 Live Application
-https://repo-mirror-asjad-khan.vercel.app
+[https://repo-mirror-asjad-khan.vercel.app](https://repo-mirror-asjad-khan.vercel.app)
 
-## 📌 Source Code
-https://github.com/Khanasjad27/RepoMirror
+## 📌 Repository
+[https://github.com/Khanasjad27/RepoMirror](https://github.com/Khanasjad27/RepoMirror)
 
-## 🚀 What RepoMirror Does
-- Analyzes GitHub repositories using real-world engineering standards
-- Produces:
-  - A realistic evaluation score (0–100)
-  - A concise technical summary highlighting strengths and gaps
-  - A prioritized, personalized improvement roadmap
-- Avoids assumptions and generic feedback
-- Mirrors how repositories are reviewed during **internship and entry-level hiring**
+---
 
-## 🧠 Evaluation Criteria
-- Code quality and readability  
-- Project structure and folder organization  
-- Documentation clarity  
-- Test coverage and maintainability  
-- Commit history and development consistency  
-- Technology stack usage  
-- Git and version control practices  
-- Real-world applicability and usefulness  
+## ✨ Features & Upgrades
+- **100% Standalone & Client-Side Engine:** Decoupled from third-party cloud services like Supabase and Lovable. Communicates directly with GitHub and Google Gemini REST APIs.
+- **Custom Google Gemini API Key:** Run unlimited analyses by adding your own Gemini API key in the UI settings or via environment variables.
+- **GitHub Authentication & Rate Limit Expansion:** Connect via GitHub Personal Access Token or 1-Click Demo Profile to unlock 5,000 GitHub requests/hour and browse your own repositories.
+- **Senior Staff 4-Pillar Evaluation:**
+  - 🧪 **Automated Testing & Reliability** (30%)
+  - 🏗️ **Architecture & Modularity** (25%)
+  - 📖 **Documentation & Onboarding** (25%)
+  - 🚀 **DevOps & CI/CD Pipelines** (20%)
+- **Actionable Prioritized Roadmap:** Time-estimated remediation steps (Quick Win, Medium, Major) categorized by Security, Testing, Architecture, and CI/CD with completion toggles and copyable prompts.
+- **Export & Share:** Export full Markdown reports for GitHub PRs, download JSON audits, or share results directly.
+
+---
 
 ## 🛠 Tech Stack
-- **Frontend:** React, Vite, Tailwind CSS  
-- **Backend:** Server-side API logic  
-- **AI Engine:** OpenAI API  
-- **Deployment:** Vercel  
+- **Framework:** React 18, Vite, TypeScript
+- **Styling & UI:** Tailwind CSS, Radix UI Primitives, Lucide Icons
+- **AI Intelligence:** Google Gemini API (`gemini-2.5-flash`, `gemini-1.5-flash`)
+- **APIs:** GitHub REST API v3
+- **Deployment:** Vercel
+
+---
 
 ## 🔐 Environment Variables
-The OpenAI API key is required for repository evaluation and is stored securely.
 
+You can configure optional default environment variables in `.env` (or in Vercel Project Settings):
 
-> The API key is configured as an environment variable and is **never committed to GitHub**.
+```bash
+# Google Gemini API Key (Get a free key from https://aistudio.google.com/app/apikey)
+VITE_GEMINI_API_KEY="your-gemini-api-key"
 
-## 🎯 Use Cases (Real & Original)
-- **Self-evaluation tool** for students to assess project readiness before sharing with recruiters  
-- **Pre-screening assistant** for mentors, clubs, or communities reviewing multiple GitHub repositories  
-- **Learning feedback system** to understand how industry engineers evaluate code quality and structure  
-- **Hackathon evaluation prototype** demonstrating AI-assisted technical review workflows  
-- **Portfolio showcase project** representing real-world engineering judgment, not just CRUD functionality  
+# Optional: GitHub Personal Access Token (for 5,000 req/hr default rate limit)
+VITE_GITHUB_TOKEN=""
+```
 
-## 🌐 Deployment
-RepoMirror is deployed on **Vercel** with environment variables securely managed via the Vercel dashboard.
+> **Note:** If no key is set in the environment, users can easily enter their own Gemini API key directly through the in-app modal. Keys are saved securely in the user's browser `localStorage` and never sent to external servers.
+
+---
+
+## 🚀 Local Development
+
+1. **Clone the repository:**
+   ```bash
+   git clone https://github.com/Khanasjad27/RepoMirror.git
+   cd RepoMirror
+   ```
+
+2. **Install dependencies:**
+   ```bash
+   npm install
+   ```
+
+3. **Start the local development server:**
+   ```bash
+   npm run dev
+   ```
+
+4. **Build for production:**
+   ```bash
+   npm run build
+   ```
+
+---
 
 ## 👤 Author
 **Asjad Khan**  
-GitHub: https://github.com/Khanasjad27
+GitHub: [@Khanasjad27](https://github.com/Khanasjad27)
